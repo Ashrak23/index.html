@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Fun Facts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 50px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            color: #999;
+            margin-bottom: 40px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .fact-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            line-height: 1.8;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .fact-counter {
+            color: #999;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .fact-box {
+                min-height: 120px;
+                padding: 30px 20px;
+                font-size: 1.05em;
+            }
+
+            button {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Fun Facts</h1>
+        <p class="subtitle">Learn something new!</p>
+
+        <div class="fact-box" id="factBox">
+            Click the button below to discover a random fun fact!
+        </div>
+
+        <button onclick="getRandomFact()">Get New Fact</button>
+
+        <div class="fact-counter">
+            <span id="factCount">0</span> facts viewed
+        </div>
+    </div>
+
+    <script>
+        const facts = [
+            "Honey never spoils and can last forever. Archaeologists have found 3000-year-old honey in Egyptian tombs that was still edible!",
+            "A group of flamingos is called a 'flamboyance.' Because, of course, they're fabulous!",
+            "Octopuses have three hearts—two pump blood to the gills, and one pumps blood to the rest of the body.",
+            "Bananas are berries, but strawberries aren't! Botanically speaking, bananas are true berries while strawberries are accessory fruits.",
+            "A day on Venus is longer than a year on Venus. Venus takes 243 Earth days to rotate but only 225 Earth days to orbit the sun.",
+            "The smell of petrichor (rain on dry earth) comes from a compound called geosmin produced by bacteria in the soil.",
+            "Cleopatra lived closer to the invention of the iPhone than to the construction of the Great Pyramid of Giza.",
+            "Wombats produce cube-shaped poop. Scientists still aren't entirely sure why!",
+            "A group of crows is called a 'murder.' A group of owls is called a 'parliament.'",
+            "The fingerprints of koalas are so similar to human fingerprints that they could confuse crime scene investigators!",
+            "Tardigrades (water bears) can survive in space and extreme temperatures. They're virtually indestructible!",
+            "The shortest war in history lasted only 38 to 45 minutes. It was between Britain and Zanzibar on August 27, 1896.",
+            "Sharks have been around longer than dinosaurs. They've existed for over 450 million years!",
+            "A cat's purr vibrates at a frequency that can promote bone healing.",
+            "Slime eels can produce enough slime to fill a bucket in seconds as a defense mechanism.",
+            "The moon is slowly drifting away from Earth at about 1.5 inches per year.",
+            "Polar bears have black skin under their white fur. The fur is actually transparent!",
+            "Octopuses can taste with their arms. Their arms contain most of their taste receptors.",
+            "The letter 'Q' is always followed by 'U' in English, except for a few borrowed words like 'qi' and 'qat.'",
+            "A group of porcupines is called a 'prickle.' How adorable is that?",
+            "Butterflies taste with their feet to find out whether the leaf they sit on is good to lay eggs on.",
+            "The only mammal that cannot jump is the elephant. Also, the sloth, hippo, and rhino can't jump either!",
+            "Some types of jellyfish are biologically immortal and can age backwards.",
+            "Cats spend 70% of their lives sleeping or in a state of rest.",
+            "The human brain uses 20% of your body's energy, despite being only 2% of body weight.",
+            "In Japan, there's a train station dedicated to cats. It's a restored, unmanned railway line.",
+            "Vacuum-packed peanuts actually have been to space and used as thermal insulation!",
+            "Eggplants are actually fruits, not vegetables. Botanically, they're berries!",
+            "The Great Wall of China is not visible from space with the naked eye. This is a common misconception!",
+            "Sea otters hold hands while sleeping so they don't drift apart. They're basically the cutest animals ever."
+        ];
+
+        let factCount = 0;
+        let lastFactIndex = -1;
+
+        function getRandomFact() {
+            let randomIndex;
+            
+            // Ensure we don't get the same fact twice in a row
+            do {
+                randomIndex = Math.floor(Math.random() * facts.length);
+            } while (randomIndex === lastFactIndex);
+
+            lastFactIndex = randomIndex;
+            const factBox = document.getElementById('factBox');
+            
+            // Add fade effect
+            factBox.style.animation = 'none';
+            setTimeout(() => {
+                factBox.textContent = facts[randomIndex];
+                factBox.style.animation = 'fadeIn 0.6s ease-in';
+            }, 10);
+
+            factCount++;
+            document.getElementById('factCount').textContent = factCount;
+        }
+
+        // Get a random fact on page load
+        window.addEventListener('load', () => {
+            getRandomFact();
+        });
+    </script>
+</body>
+</html>
